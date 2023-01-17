@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>MQTT DASH</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+
+<body>
+
+<script>
+
+let sub = mqtt.connect('ws://localhost:8883');
+let topic = "aaa/bbb"
+
+
+sub.subscribe(topic);
+
+sub.on('message', function (topic, message) { // message is Buffer
+  console.log("sub: " + message.toString());
+});
+
+</script> 
+</body>
+</html>
