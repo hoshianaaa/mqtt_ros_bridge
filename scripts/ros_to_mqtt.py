@@ -34,9 +34,15 @@ def data_callback(msg):
   mqtt_pub(string[:-1])
 
 rospy.init_node("ros_mqtt_bridge")
-rospy.Subscriber("data", Int32MultiArray, data_callback)
 
+# init parameter
 mqtt_topic = rospy.get_param("/ros_mqtt_bridge/mqtt_topic", "topic")
+ros_topic_type = rospy.get_param("/ros_mqtt_bridge/ros_topic_type", "Float64MultiArray")
+print("mqtt_topic:", mqtt_topic)
+print("ros_topic_type:", ros_topic_type)
+
+if (ros_topic_type == "Float64MultiArray"):
+  rospy.Subscriber("data", Float64MultiArray, data_callback)
 
 # メイン関数   この関数は末尾のif文から呼び出される
 client = mqtt.Client()                 # クラスのインスタンス(実体)の作成
