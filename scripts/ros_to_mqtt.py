@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
@@ -33,16 +33,18 @@ def data_callback(msg):
 
   mqtt_pub(string[:-1])
 
-rospy.init_node("ros_mqtt_bridge")
+rospy.init_node("ros_mqtt_bridge", anonymous=True)
 
 # init parameter
-mqtt_topic = rospy.get_param("/ros_mqtt_bridge/mqtt_topic", "topic")
-ros_topic_type = rospy.get_param("/ros_mqtt_bridge/ros_topic_type", "Float64MultiArray")
+mqtt_topic = rospy.get_param("~mqtt_topic", "topic")
+ros_topic = rospy.get_param("~ros_topic", "data")
+ros_topic_type = rospy.get_param("~ros_topic_type", "Float64MultiArray")
 print("mqtt_topic:", mqtt_topic)
+print("ros_topic:", ros_topic)
 print("ros_topic_type:", ros_topic_type)
 
 if (ros_topic_type == "Float64MultiArray"):
-  rospy.Subscriber("data", Float64MultiArray, data_callback)
+  rospy.Subscriber(ros_topic, Float64MultiArray, data_callback)
 
 # メイン関数   この関数は末尾のif文から呼び出される
 client = mqtt.Client()                 # クラスのインスタンス(実体)の作成

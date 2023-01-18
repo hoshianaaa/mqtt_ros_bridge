@@ -1,3 +1,0 @@
-sudo -A apt-get install mosquitto mosquitto-clients -y
-sudo -A cp mosquitto.conf /etc/mosquitto/mosquitto.conf
-sudo -A systemctl restart mosquitto
