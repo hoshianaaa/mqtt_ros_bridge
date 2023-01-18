@@ -13,13 +13,18 @@
 <script>
 
 let sub = mqtt.connect('ws://localhost:8883');
-let topic = "aaa/bbb"
+let topic = "topic"
 
+var data_list = [];
 
 sub.subscribe(topic);
 
 sub.on('message', function (topic, message) { // message is Buffer
-  console.log("sub: " + message.toString());
+  data = message.toString()
+  //console.log("sub: " + msg);
+  data_list = data.split(',').map(Number);
+  console.log("data list");
+  console.log(data_list);
 });
 
 </script> 
