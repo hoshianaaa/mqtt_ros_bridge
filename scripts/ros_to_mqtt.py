@@ -24,14 +24,17 @@ def mqtt_pub(msg):
   global mqtt_topic
   client.publish(mqtt_topic,msg)    # トピック名とメッセージを決めて送信
 
+DATA = None
+
 def data_callback(msg):
+  global DATA
   print(msg)
   string = ""
   data = msg.data
   for d in data:
     string = string + str(d) + ","
 
-  mqtt_pub(string[:-1])
+  DATA = string[:-1]
 
 rospy.init_node("ros_mqtt_bridge", anonymous=True)
 
@@ -56,7 +59,9 @@ client.connect("localhost", 1883, 60)  # 接続先は自分自身
 
 client.loop_start()    # subはloop_forever()だが，pubはloop_start()で起動だけさせる
 
-r = rospy.Rate(100)
+r = rospy.Rate(1)
 
 while not rospy.is_shutdown():
+  if DATA != None:
+    mqtt_pub(DATA)
   r.sleep()
